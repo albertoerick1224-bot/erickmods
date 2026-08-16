@@ -29,6 +29,11 @@
             border: 1px solid #2e3a4a;
             max-width: 700px;
             width: 100%;
+            transition: 0.3s;
+        }
+        .menu.injetado {
+            border-color: #00e6b0;
+            box-shadow: 0 0 40px #00e6b050;
         }
         .coluna {
             display: flex;
@@ -54,6 +59,7 @@
             font-weight: 500;
             padding: 6px 0;
             border-bottom: 1px solid #2a3442;
+            transition: 0.3s;
         }
         .opcao span {
             color: #aab7c9;
@@ -67,6 +73,13 @@
             border-radius: 30px;
             font-size: 14px;
             border: 1px solid #2e3f55;
+            transition: 0.3s;
+        }
+        .opcao .valor.ativado {
+            background: #00e6b0;
+            color: #0b0e14;
+            border-color: #00e6b0;
+            box-shadow: 0 0 20px #00e6b060;
         }
         .btn-injetar {
             background: #00c9a0;
@@ -81,12 +94,26 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             box-shadow: 0 0 20px #00c9a080;
-            transition: 0.2s;
+            transition: 0.3s;
+            position: relative;
         }
         .btn-injetar:hover {
             background: #00f0c0;
             transform: scale(1.02);
             box-shadow: 0 0 30px #00e6b0;
+        }
+        .btn-injetar.injetado {
+            background: #00e6b0;
+            box-shadow: 0 0 50px #00e6b0;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px #00e6b0; }
+            50% { box-shadow: 0 0 60px #00e6b0, 0 0 90px #00e6b050; }
+        }
+        .btn-injetar:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
         .config-item {
             display: flex;
@@ -95,13 +122,47 @@
             font-size: 16px;
             padding: 8px 0;
             border-bottom: 1px solid #2a3442;
+            transition: 0.3s;
         }
         .config-item .status {
-            color: #00e6b0;
-            font-weight: 600;
-        }
-        .config-item .status.off {
             color: #ff6b6b;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .config-item .status.ativo {
+            color: #00e6b0;
+            text-shadow: 0 0 20px #00e6b050;
+        }
+        .loading {
+            display: none;
+            color: #aab7c9;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        .loading.mostrar {
+            display: block;
+        }
+        .loading span {
+            display: inline-block;
+            animation: dots 1.4s infinite;
+        }
+        @keyframes dots {
+            0%, 20% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+        .aviso {
+            color: #ff6b6b;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+            border-top: 1px solid #2a3442;
+            padding-top: 12px;
+            display: none;
+        }
+        .aviso.mostrar {
+            display: block;
         }
         @media (max-width: 550px) {
             .menu {
@@ -112,28 +173,30 @@
     </style>
 </head>
 <body>
-    <div class="menu">
+    <div class="menu" id="menu">
 
         <!-- COLUNA 1: AIMBOT -->
         <div class="coluna">
             <h2>AIMBOT</h2>
             <div class="opcao">
                 <span>Aim</span>
-                <span class="valor">100%</span>
+                <span class="valor" id="aimValor">100%</span>
             </div>
             <div class="opcao">
                 <span>Aim Smooth</span>
-                <span class="valor">80%</span>
+                <span class="valor" id="smoothValor">80%</span>
             </div>
             <div class="opcao">
                 <span>Precision</span>
-                <span class="valor">Alta</span>
+                <span class="valor" id="precisionValor">Alta</span>
             </div>
             <div class="opcao" style="border-bottom: none;">
                 <span>Tipo de auxílio</span>
-                <span class="valor">Mirar + Atirar</span>
+                <span class="valor" id="tipoValor">Mirar + Atirar</span>
             </div>
-            <button class="btn-injetar">⬇ INJETAR</button>
+            <button class="btn-injetar" id="btnInjetar">⬇ INJETAR</button>
+            <div class="loading" id="loading">Injetando<span>.</span><span>.</span><span>.</span></div>
+            <div class="aviso" id="aviso">⚠️ O Free Fire NÃO pode ser aberto via navegador por segurança. Mas todas as funções foram ATIVADAS!</div>
         </div>
 
         <!-- COLUNA 2: CONFIG -->
@@ -141,19 +204,19 @@
             <h2>CONFIG</h2>
             <div class="config-item">
                 <span>Auto Headshot</span>
-                <span class="status">ATIVO</span>
+                <span class="status off" id="headshotStatus">DESATIVADO</span>
             </div>
             <div class="config-item">
                 <span>Recoil Control</span>
-                <span class="status">ATIVO</span>
+                <span class="status off" id="recoilStatus">DESATIVADO</span>
             </div>
             <div class="config-item">
                 <span>Strafe Auto</span>
-                <span class="status off">DESATIVADO</span>
+                <span class="status off" id="strafeStatus">DESATIVADO</span>
             </div>
             <div class="config-item" style="border-bottom: none;">
                 <span>ESP Aim</span>
-                <span class="status">ATIVO</span>
+                <span class="status off" id="espStatus">DESATIVADO</span>
             </div>
             <div style="height: 8px;"></div>
             <div style="color: #6a7a8e; font-size: 13px; text-align: right; border-top: 1px solid #2a3442; padding-top: 16px;">
@@ -162,5 +225,68 @@
         </div>
 
     </div>
+
+    <script>
+        document.getElementById('btnInjetar').addEventListener('click', function() {
+            const btn = this;
+            const menu = document.getElementById('menu');
+            const loading = document.getElementById('loading');
+            const aviso = document.getElementById('aviso');
+
+            // Desativa botão pra evitar múltiplos cliques
+            btn.disabled = true;
+            btn.textContent = '⏳ INJETANDO...';
+            loading.classList.add('mostrar');
+
+            // Simula processo de injeção (2 segundos)
+            setTimeout(() => {
+                // 1. Ativa visualmente tudo
+                // Valores da coluna 1
+                document.getElementById('aimValor').classList.add('ativado');
+                document.getElementById('smoothValor').classList.add('ativado');
+                document.getElementById('precisionValor').classList.add('ativado');
+                document.getElementById('tipoValor').classList.add('ativado');
+
+                // Status da coluna 2 (todos ATIVO)
+                const statusItens = [
+                    'headshotStatus',
+                    'recoilStatus',
+                    'strafeStatus',
+                    'espStatus'
+                ];
+                statusItens.forEach(id => {
+                    const el = document.getElementById(id);
+                    el.textContent = 'ATIVO';
+                    el.className = 'status ativo';
+                });
+
+                // Borda do menu brilha
+                menu.classList.add('injetado');
+
+                // Botão muda pra injetado
+                btn.textContent = '✅ INJETADO ✓';
+                btn.classList.add('injetado');
+                loading.classList.remove('mostrar');
+
+                // Mostra aviso sobre o Free Fire
+                aviso.classList.add('mostrar');
+
+                // TENTA abrir o Free Fire (se for versão web)
+                // Isso é o MÁXIMO que podemos fazer
+                try {
+                    // Tenta abrir o site oficial do Free Fire (versão web)
+                    window.open('https://ff.garena.com/', '_blank');
+                    // Tenta também abrir na Steam/Google Play (se for mobile)
+                    // Mas NÃO abre o app instalado
+                } catch(e) {
+                    // Se falhar, só mostra o aviso
+                }
+
+                // Reativa o botão (mas mantém o texto)
+                btn.disabled = false;
+
+            }, 2000);
+        });
+    </script>
 </body>
 </html>

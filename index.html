@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auxílio de Mira - FF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        body {
+            background: #0b0e14;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .menu {
+            background: #1a1f2a;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px 60px;
+            border: 1px solid #2e3a4a;
+            max-width: 700px;
+            width: 100%;
+        }
+        .coluna {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .coluna h2 {
+            color: #00e6b0;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #00e6b0;
+            padding-bottom: 8px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .opcao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #d0dbe8;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 6px 0;
+            border-bottom: 1px solid #2a3442;
+        }
+        .opcao span {
+            color: #aab7c9;
+            font-weight: 300;
+        }
+        .opcao .valor {
+            color: #00e6b0;
+            font-weight: 600;
+            background: #0f1620;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 14px;
+            border: 1px solid #2e3f55;
+        }
+        .btn-injetar {
+            background: #00c9a0;
+            color: #0b0e14;
+            font-weight: 700;
+            font-size: 20px;
+            padding: 14px 0;
+            border: none;
+            border-radius: 60px;
+            margin-top: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 20px #00c9a080;
+            transition: 0.2s;
+        }
+        .btn-injetar:hover {
+            background: #00f0c0;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px #00e6b0;
+        }
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            color: #d0dbe8;
+            font-size: 16px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2a3442;
+        }
+        .config-item .status {
+            color: #00e6b0;
+            font-weight: 600;
+        }
+        .config-item .status.off {
+            color: #ff6b6b;
+        }
+        @media (max-width: 550px) {
+            .menu {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+
+        <!-- COLUNA 1: AIMBOT -->
+        <div class="coluna">
+            <h2>AIMBOT</h2>
+            <div class="opcao">
+                <span>Aim</span>
+                <span class="valor">100%</span>
+            </div>
+            <div class="opcao">
+                <span>Aim Smooth</span>
+                <span class="valor">80%</span>
+            </div>
+            <div class="opcao">
+                <span>Precision</span>
+                <span class="valor">Alta</span>
+            </div>
+            <div class="opcao" style="border-bottom: none;">
+                <span>Tipo de auxílio</span>
+                <span class="valor">Mirar + Atirar</span>
+            </div>
+            <button class="btn-injetar">⬇ INJETAR</button>
+        </div>
+
+        <!-- COLUNA 2: CONFIG -->
+        <div class="coluna">
+            <h2>CONFIG</h2>
+            <div class="config-item">
+                <span>Auto Headshot</span>
+                <span class="status">ATIVO</span>
+            </div>
+            <div class="config-item">
+                <span>Recoil Control</span>
+                <span class="status">ATIVO</span>
+            </div>
+            <div class="config-item">
+                <span>Strafe Auto</span>
+                <span class="status off">DESATIVADO</span>
+            </div>
+            <div class="config-item" style="border-bottom: none;">
+                <span>ESP Aim</span>
+                <span class="status">ATIVO</span>
+            </div>
+            <div style="height: 8px;"></div>
+            <div style="color: #6a7a8e; font-size: 13px; text-align: right; border-top: 1px solid #2a3442; padding-top: 16px;">
+                FF Aux v2.0
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
